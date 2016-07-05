@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'shiva.urls'
+ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'shiva.wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
 
 # Database
@@ -76,8 +76,19 @@ WSGI_APPLICATION = 'shiva.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME', 'shivadb'),
+        'USER': os.environ.get('DB_USER', 'shivauser'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '1'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+        'TEST': {
+            'NAME': os.environ.get('DB_NAME', 'shivadb'),
+            'USER': os.environ.get('DB_USER', 'shivauser'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', '1'),
+            'CREATE_DB': False,
+            'CREATE_USER': False
+        }
     }
 }
 
