@@ -1,5 +1,5 @@
 import uuid
-from .models import Person, PersonVisit
+from .models import Person, PersonVisit, PersonInfo
 
 
 def create_new_site_visitor() -> Person:
@@ -23,5 +23,13 @@ def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str)
     return person_object.uid
 
 
-def attach_info_to_person(person_id: str, info_type: int, info_value: str) -> bool:
-    return True
+def attach_info_to_person(person_id: str, info_type: str, info_value: str) -> bool:
+    try:
+        uuid.UUID(person_id, version=1)
+    except Exception:
+        person_id = None
+    person_object = Person.objects.filter(uid=person_id).first()
+    if person_object is None:
+        person_object = create_new_site_visitor()
+    person_info = PersonInfo(person=person_object, info_type=info_type, info_value=info_value)
+    return person_info.person.uid
