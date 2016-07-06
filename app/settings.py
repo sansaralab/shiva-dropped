@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tracker'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -69,6 +70,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Database
