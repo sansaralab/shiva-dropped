@@ -2,7 +2,7 @@ from time import time
 from urllib.parse import urlparse
 from django.http import JsonResponse
 from django.shortcuts import render
-from .services import track_person_visit
+from .services import track_person_visit, attach_info_to_person
 
 
 def tracker_serve(req):
@@ -47,3 +47,7 @@ def track(req):
         return success(new_uid)
     else:
         return error()
+
+
+def attach_info(req):
+    return JsonResponse({"ok": True})

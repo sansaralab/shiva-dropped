@@ -21,3 +21,7 @@ def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str)
     visit = PersonVisit(person=person_object, page=page, user_agent=user_agent, user_ip=user_ip)
     visit.save()
     return person_object.uid
+
+
+def attach_info_to_person(person_id: str, info_type: int, info_value: str) -> bool:
+    return True
