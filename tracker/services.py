@@ -32,4 +32,8 @@ def attach_info_to_person(person_id: str, info_type: str, info_value: str) -> bo
     if person_object is None:
         person_object = create_new_site_visitor()
     person_info = PersonInfo(person=person_object, info_type=info_type, info_value=info_value)
+    try:
+        person_info.save()
+    except Exception:
+        pass
     return person_info.person.uid

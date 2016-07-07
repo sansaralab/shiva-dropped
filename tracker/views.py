@@ -5,6 +5,20 @@ from django.shortcuts import render
 from .services import track_person_visit, attach_info_to_person
 
 
+def success(uid):
+    resp = JsonResponse({
+        'ok': True
+    }, status=200)
+    resp.set_cookie('uid', uid, time() + 315360000, httponly=True)
+    return resp
+
+
+def error():
+    return JsonResponse({
+        'ok': False
+    }, status=403)
+
+
 def tracker_serve(req):
     return render(req, 'tracker/tracker.js', {
         'server': req.scheme + '://' + req.get_host()
@@ -20,18 +34,6 @@ def track(req):
     :param req:
     :return:
     """
-    def success(uid):
-        resp = JsonResponse({
-            'ok': True
-        }, status=200)
-        resp.set_cookie('uid', uid, time() + 315360000, httponly=True)
-        return resp
-
-    def error():
-        return JsonResponse({
-            'ok': False
-        }, status=403)
-
     page = req.GET.get('p', None)
     if page is None:
         return error()
@@ -50,4 +52,18 @@ def track(req):
 
 
 def attach_info(req):
-    return JsonResponse({"ok": True})
+    info_type = req.GET.get('t', None)
+    info_value = req.GET.get('v', None)
+
+    if info_type is None or info_value is None:
+        return error()
+
+    referer = req.META.get("HTTP_REFERER", None)
+    parsed_uri = urlparse(referer)
+    domain = '{uri.netloc}'.format(uri=parsed_uri)
+    if domain:
+        uid = req.COOKIES.get('uid', None)
+        new_uid = attach_info_to_person(uid, info_type, info_value)
+        return success(new_uid)
+    else:
+        return error()
