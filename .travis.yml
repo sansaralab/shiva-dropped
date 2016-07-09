@@ -5,11 +5,11 @@ python:
 env:
   global:
   - NODE_ENV=test
-  - PGPORT=5433
+  - PGPORT=5432
   - PGHOST=localhost
 
 services:
-  - postgresql
+  - postgresql: "9.5"
 
 install:
   - pip3 install -r ./requirements.txt
