@@ -35,7 +35,7 @@ before_script:
   - psql -U postgres -c "alter role shivauser with superuser;"
 
 script:
-  - flake8 --exclude=migrations .
+  - flake8 --exit-zero --exclude=migrations .
   - coverage run ./manage.py test --no-input
 
 after_success:
