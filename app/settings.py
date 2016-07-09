@@ -68,11 +68,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'shivadb'),
-        'USER': os.environ.get('DB_USER', 'shivauser'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', '1'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': os.environ.get('SHIVA_DB_NAME', 'shivadb'),
+        'USER': os.environ.get('SHIVA_DB_USER', 'shivauser'),
+        'PASSWORD': os.environ.get('SHIVA_DB_PASSWORD', '1'),
+        'HOST': os.environ.get('SHIVA_DB_HOST', 'localhost'),
+        'PORT': os.environ.get('SHIVA_DB_PORT', '5432'),
     }
 }
 

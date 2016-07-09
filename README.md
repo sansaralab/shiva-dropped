@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sansaralab/shiva.svg?branch=master)](https://travis-ci.org/sansaralab/shiva)
+
 # Shiva
 Tool for tracking users, firing hooks (send request or run js on front) based on user's actions.
 It is possible to define very flexible triggers. Also it is possible to attach any identifying information to user like email.
