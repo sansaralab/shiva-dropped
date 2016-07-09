@@ -9,14 +9,16 @@ env:
   - PGPORT=5432
   - PGHOST=localhost
 
+addons:
+  postgresql: "9.5"
+
 services:
-  - postgresql: "9.4"
+  - postgresql
 
 install:
   - pip3 install -r ./requirements.txt
 
 before_script:
-  - psql -U postgres -c "create database test_shivadb;"
   - psql -U postgres -c "create user shivauser with password '1';"
   - psql -U postgres -c "alter role shivauser with superuser;"
 
