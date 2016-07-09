@@ -73,13 +73,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD', '1'),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
-        'TEST': {
-            'NAME': os.environ.get('DB_NAME', 'shivadb'),
-            'USER': os.environ.get('DB_USER', 'shivauser'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', '1'),
-            'CREATE_DB': False,
-            'CREATE_USER': False
-        }
     }
 }
 
