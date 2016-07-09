@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sansaralab/shiva.svg?branch=master)](https://travis-ci.org/sansaralab/shiva)
+[![Build Status](https://travis-ci.org/sansaralab/shiva.svg?branch=master)](https://travis-ci.org/sansaralab/shiva)  [![Coverage Status](https://coveralls.io/repos/github/sansaralab/shiva/badge.svg?branch=master)](https://coveralls.io/github/sansaralab/shiva?branch=master)
 
 # Shiva
 Tool for tracking users, firing hooks (send request or run js on front) based on user's actions.
