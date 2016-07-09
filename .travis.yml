@@ -1,6 +1,7 @@
 language: python
 python:
   - '3.5'
+cache: pip
 
 env:
   global:
@@ -9,14 +10,14 @@ env:
   - PGHOST=localhost
 
 services:
-  - postgresql: "9.5"
+  - postgresql: "9.4"
 
 install:
   - pip3 install -r ./requirements.txt
 
 before_script:
-  - psql -U postgres -c 'create database "test_shivadb";'
-  - psql -U postgres -c 'create user "shivauser" with password "1";'
-  - psql -U postgres -c 'alter role shivauser with superuser;'
+  - psql -U postgres -c "create database test_shivadb;"
+  - psql -U postgres -c "create user shivauser with password '1';"
+  - psql -U postgres -c "alter role shivauser with superuser;"
 
 script: python3 ./manage.py test --no-input
