@@ -26,7 +26,6 @@ services:
 
 install:
   - pip3 install -r ./requirements.txt
-  - pip3 install coverage coveralls
 
 before_script:
   - sudo cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.5/main/pg_hba.conf
@@ -36,7 +35,7 @@ before_script:
 
 script:
   - flake8 --exit-zero --exclude=migrations .
-  - coverage run ./manage.py test --no-input
+  - coverage run --include=./* ./manage.py test --no-input
 
 after_success:
   - coverage report
