@@ -47,3 +47,17 @@ class PersonManageTestCase(TestCase):
     def test_fail_additional_information(self):
         resp = self.client.get('/tracker/attach')
         self.assertEquals(resp.status_code, 403)
+
+    def test_send_person_event(self):
+        uniq_val = str(uuid.uuid4())
+        resp = self.client.get('/tracker/event', {'t': 'test_name', 'v': uniq_val})
+        self.assertEquals(resp.status_code, 200)
+        uid = self.client.cookies.get('uid').value
+        count = Person.objects.filter(uid=uid,
+                                      personevent__event_name='test_name',
+                                      personevent__event_value=uniq_val).count()
+        self.assertEquals(count, 1)
+
+    def test_fail_send_person_event(self):
+        resp = self.client.get('/tracker/event')
+        self.assertEquals(resp.status_code, 403)

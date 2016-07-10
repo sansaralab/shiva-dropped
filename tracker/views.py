@@ -2,7 +2,7 @@ from time import time
 from urllib.parse import urlparse
 from django.http import JsonResponse
 from django.shortcuts import render
-from .services import track_person_visit, attach_info_to_person
+from .services import track_person_visit, attach_info_to_person, send_person_event
 
 
 def success(uid):
@@ -45,8 +45,8 @@ def track(req):
         uid = req.COOKIES.get('uid', None)
         user_agent = req.META.get("HTTP_USER_AGENT", None)
         user_ip = req.META.get("REMOTE_ADDR", None)
-        new_uid = track_person_visit(uid, page, user_agent, user_ip)
-        return success(new_uid)
+        person = track_person_visit(uid, page, user_agent, user_ip)
+        return success(person.uid)
     else:
         return error()
 
@@ -63,7 +63,25 @@ def attach_info(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        new_uid = attach_info_to_person(uid, info_type, info_value)
-        return success(new_uid)
+        person = attach_info_to_person(uid, info_type, info_value)
+        return success(person.uid)
+    else:
+        return error()
+
+
+def send_event(req):
+    event_type = req.GET.get('t', None)
+    event_value = req.GET.get('v', '')
+
+    if event_type is None:
+        return error()
+
+    referer = req.META.get("HTTP_REFERER", None)
+    parsed_uri = urlparse(referer)
+    domain = '{uri.netloc}'.format(uri=parsed_uri)
+    if domain:
+        uid = req.COOKIES.get('uid', None)
+        person = send_person_event(uid, event_type, event_value)
+        return success(person.uid)
     else:
         return error()

@@ -24,6 +24,12 @@ class PersonInfo(models.Model):
         unique_together = (("person", "info_type", "info_value"),)
 
 
+class PersonEvent(models.Model):
+    person = models.ForeignKey(Person)
+    event_name = models.TextField(blank=False, null=False)
+    event_value = models.TextField(blank=True, null=False, default='')
+
+
 class Trigger(models.Model):
     """
     This is core entity of entire application
