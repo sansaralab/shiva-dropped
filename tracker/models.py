@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from .types import TRIGGER_ACTION_TYPE_CHOICES
 
 
 class Person(models.Model):
@@ -21,3 +22,11 @@ class PersonInfo(models.Model):
 
     class Meta:
         unique_together = (("person", "info_type", "info_value"),)
+
+
+class Trigger(models.Model):
+    """
+    This is core entity of entire application
+    """
+    name = models.TextField(blank=False, null=False)
+    action_type = models.IntegerField(null=False, choices=TRIGGER_ACTION_TYPE_CHOICES)

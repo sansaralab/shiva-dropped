@@ -1,0 +1,9 @@
+TRIGGER_ACTION_TYPES = {
+    'BACKEND': 0,
+    'FRONTEND': 1
+}
+
+TRIGGER_ACTION_TYPE_CHOICES = (
+    (TRIGGER_ACTION_TYPES['BACKEND'], 'Backend trigger'),
+    (TRIGGER_ACTION_TYPES['FRONTEND'], 'Frontend trigger'),
+)
