@@ -43,3 +43,7 @@ class PersonManageTestCase(TestCase):
                                       personinfo__info_type='email',
                                       personinfo__info_value='testmail@example.com').count()
         self.assertEquals(count, 1)
+
+    def test_fail_additional_information(self):
+        resp = self.client.get('/tracker/attach')
+        self.assertEquals(resp.status_code, 403)
