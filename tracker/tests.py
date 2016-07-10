@@ -39,6 +39,7 @@ class PersonManageTestCase(TestCase):
         resp = self.client.get('/tracker/attach', {'t': 'email', 'v': 'testmail@example.com'})
         self.assertEquals(resp.status_code, 200)
         uid = self.client.cookies.get('uid').value
-        count = Person.objects.filter(uid=uid, personinfo__info_type='email',
+        count = Person.objects.filter(uid=uid,
+                                      personinfo__info_type='email',
                                       personinfo__info_value='testmail@example.com').count()
         self.assertEquals(count, 1)
