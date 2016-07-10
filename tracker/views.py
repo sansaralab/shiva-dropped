@@ -20,7 +20,7 @@ def error():
 
 
 def tracker_serve(req):
-    return render(req, 'tracker/tracker.js', {
+    return render(req, 'tracker/tracker.min.js', {
         'server': req.scheme + '://' + req.get_host()
     }, content_type="application/x-javascript")
 
