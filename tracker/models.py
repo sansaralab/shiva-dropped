@@ -25,14 +25,31 @@ class PersonVisit(models.Model):
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
 
-class PersonInfo(models.Model):
+class PersonContact(models.Model):
+    """
+    Only for storing person's contacts
+    """
     person = models.ForeignKey(Person)
-    info_type = models.TextField(blank=False, null=False, db_index=True)
-    info_value = models.TextField(blank=False, null=False, db_index=True)
+    contact_type = models.TextField(blank=False, null=False, db_index=True)
+    contact_value = models.TextField(blank=False, null=False, db_index=True)
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
     class Meta:
-        unique_together = (("person", "info_type", "info_value"),)
+        unique_together = (("person", "contact_type", "contact_value"),)
+
+
+class PersonData(models.Model):
+    """
+    For storing any additional information about person
+    """
+    person = models.ForeignKey(Person)
+    data_type = models.TextField(blank=False, null=False, db_index=True)
+    data_value = models.TextField(blank=False, null=False, db_index=True)
+    created_at = models.DateTimeField(editable=False, default=timezone.now)
+
+    class Meta:
+        # TODO: is unique necessary?
+        unique_together = (("person", "data_type", "data_value"),)
 
 
 class PersonEvent(models.Model):

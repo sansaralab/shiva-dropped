@@ -1,5 +1,5 @@
 import uuid
-from .models import Person, PersonVisit, PersonInfo, PersonEvent
+from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData
 
 
 def create_new_site_visitor() -> Person:
@@ -16,10 +16,18 @@ def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str)
     return person_object
 
 
-def attach_info_to_person(person_id: str, info_type: str, info_value: str) -> Person:
+def attach_contact_to_person(person_id: str, contact_type: str, contact_value: str) -> Person:
     person_object = _get_or_create_person(person_id)
-    person_info = PersonInfo.objects.create(person=person_object, info_type=info_type, info_value=info_value)
+    # TODO: catch exceptions
+    person_info = PersonContact.objects.create(person=person_object, contact_type=contact_type, contact_value=contact_value)
     return person_info.person
+
+
+def attach_data_to_person(person_id: str, data_type: str, data_value: str) -> Person:
+    person_object = _get_or_create_person(person_id)
+    # TODO: catch exceptions
+    person_data = PersonData.objects.create(person=person_object, data_type=data_type, data_value=data_value)
+    return person_data.person
 
 
 def send_person_event(person_id: str, event_name: str, event_value: str) -> Person:
@@ -28,7 +36,7 @@ def send_person_event(person_id: str, event_name: str, event_value: str) -> Pers
     return person_event.person
 
 
-def _get_or_create_person(uid):
+def _get_or_create_person(uid) -> Person:
     person_id = _uid_or_none(uid)
     person_object = Person.objects.filter(uid=person_id).first()
     if person_object is None:

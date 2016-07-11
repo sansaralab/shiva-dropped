@@ -35,17 +35,30 @@ class PersonManageTestCase(TestCase):
         fail_resp = self.client.get('/tracker/track')
         self.assertEquals(fail_resp.status_code, 403)
 
-    def test_additional_information(self):
+    def test_person_contact(self):
         resp = self.client.get('/tracker/attach', {'t': 'email', 'v': 'testmail@example.com'})
         self.assertEquals(resp.status_code, 200)
         uid = self.client.cookies.get('uid').value
         count = Person.objects.filter(uid=uid,
-                                      personinfo__info_type='email',
-                                      personinfo__info_value='testmail@example.com').count()
+                                      personcontact__contact_type='email',
+                                      personcontact__contact_value='testmail@example.com').count()
         self.assertEquals(count, 1)
 
-    def test_fail_additional_information(self):
+    def test_fail_person_contact(self):
         resp = self.client.get('/tracker/attach')
+        self.assertEquals(resp.status_code, 403)
+
+    def test_person_data(self):
+        resp = self.client.get('/tracker/data', {'t': 'birthday', 'v': '1900-01-01'})
+        self.assertEquals(resp.status_code, 200)
+        uid = self.client.cookies.get('uid').value
+        count = Person.objects.filter(uid=uid,
+                                      persondata__data_type='birthday',
+                                      persondata__data_value='1900-01-01').count()
+        self.assertEquals(count, 1)
+
+    def test_fail_person_data(self):
+        resp = self.client.get('/tracker/data')
         self.assertEquals(resp.status_code, 403)
 
     def test_send_person_event(self):

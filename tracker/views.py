@@ -2,7 +2,7 @@ from time import time
 from urllib.parse import urlparse
 from django.http import JsonResponse
 from django.shortcuts import render
-from .services import track_person_visit, attach_info_to_person, send_person_event
+from .services import track_person_visit, attach_contact_to_person, send_person_event, attach_data_to_person
 
 
 def success(uid):
@@ -51,7 +51,7 @@ def track(req):
         return error()
 
 
-def attach_info(req):
+def attach_contact(req):
     info_type = req.GET.get('t', None)
     info_value = req.GET.get('v', None)
 
@@ -63,7 +63,25 @@ def attach_info(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        person = attach_info_to_person(uid, info_type, info_value)
+        person = attach_contact_to_person(uid, info_type, info_value)
+        return success(person.uid)
+    else:
+        return error()
+
+
+def attach_data(req):
+    data_type = req.GET.get('t', None)
+    data_value = req.GET.get('v', None)
+
+    if data_type is None or data_value is None:
+        return error()
+
+    referer = req.META.get("HTTP_REFERER", None)
+    parsed_uri = urlparse(referer)
+    domain = '{uri.netloc}'.format(uri=parsed_uri)
+    if domain:
+        uid = req.COOKIES.get('uid', None)
+        person = attach_data_to_person(uid, data_type, data_value)
         return success(person.uid)
     else:
         return error()

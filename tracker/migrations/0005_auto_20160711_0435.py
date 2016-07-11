@@ -23,13 +23,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='person',
             name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2016, 7, 11, 4, 34, 41, 618551, tzinfo=utc), editable=False),
+            field=models.DateTimeField(default=datetime.datetime.now(tz=utc), editable=False),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='person',
             name='modified_at',
-            field=models.DateTimeField(default=datetime.datetime(2016, 7, 11, 4, 34, 46, 595789, tzinfo=utc)),
+            field=models.DateTimeField(default=datetime.datetime.now(tz=utc)),
             preserve_default=False,
         ),
         migrations.AddField(
