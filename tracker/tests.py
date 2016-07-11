@@ -48,6 +48,12 @@ class PersonManageTestCase(TestCase):
         resp = self.client.get('/tracker/attach')
         self.assertEquals(resp.status_code, 403)
 
+    def test_duplicate_person_contact(self):
+        resp = self.client.get('/tracker/attach', {'t': 'email', 'v': 'duplicate@example.com'})
+        self.assertEquals(resp.status_code, 200)
+        resp = self.client.get('/tracker/attach', {'t': 'email', 'v': 'duplicate@example.com'})
+        self.assertEquals(resp.status_code, 200)
+
     def test_person_data(self):
         resp = self.client.get('/tracker/data', {'t': 'birthday', 'v': '1900-01-01'})
         self.assertEquals(resp.status_code, 200)
@@ -60,6 +66,12 @@ class PersonManageTestCase(TestCase):
     def test_fail_person_data(self):
         resp = self.client.get('/tracker/data')
         self.assertEquals(resp.status_code, 403)
+
+    def test_duplicate_person_data(self):
+        resp = self.client.get('/tracker/data', {'t': 'duplicate', 'v': 'duplicate'})
+        self.assertEquals(resp.status_code, 200)
+        resp = self.client.get('/tracker/data', {'t': 'duplicate', 'v': 'duplicate'})
+        self.assertEquals(resp.status_code, 200)
 
     def test_send_person_event(self):
         uniq_val = str(uuid.uuid4())

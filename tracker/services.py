@@ -1,4 +1,5 @@
 import uuid
+from django.db import IntegrityError
 from .handlers import handle_frontend_event
 from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData, Trigger
 
@@ -19,16 +20,20 @@ def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str)
 
 def attach_contact_to_person(person_id: str, contact_type: str, contact_value: str) -> Person:
     person_object = _get_or_create_person(person_id)
-    # TODO: catch exceptions
-    person_info = PersonContact.objects.create(person=person_object, contact_type=contact_type, contact_value=contact_value)
-    return person_info.person
+    try:
+        person_info = PersonContact.objects.create(person=person_object, contact_type=contact_type, contact_value=contact_value)
+        return person_info.person
+    except IntegrityError:
+        return person_object
 
 
 def attach_data_to_person(person_id: str, data_type: str, data_value: str) -> Person:
     person_object = _get_or_create_person(person_id)
-    # TODO: catch exceptions
-    person_data = PersonData.objects.create(person=person_object, data_type=data_type, data_value=data_value)
-    return person_data.person
+    try:
+        person_data = PersonData.objects.create(person=person_object, data_type=data_type, data_value=data_value)
+        return person_data.person
+    except IntegrityError:
+        return person_object
 
 
 def send_person_event(person_id: str, event_name: str, event_value: str) -> Person:
