@@ -16,11 +16,9 @@ gulp.task("default", function (cb) {
 
 
 gulp.task("webpack", function (callback) {
-    // run webpack
     webpack({
         devtool: 'cheap',
         entry: [
-            'babel-polyfill',
             paths.jsin + "tracker.js"
         ],
         output: {
@@ -43,18 +41,8 @@ gulp.task("webpack", function (callback) {
                     test: /\.js$/,
                     loaders: ['eslint'],
                     include: [
-                        path.resolve(__dirname),
-                    ],
-                }
-            ],
-            loaders: [
-                {
-                    loaders: ['babel-loader'],
-                    include: [
-                        path.resolve(paths.jsin),
-                    ],
-                    test: /\.js$/,
-                    plugins: ['transform-runtime'],
+                        path.resolve(__dirname)
+                    ]
                 }
             ]
         }
@@ -69,5 +57,5 @@ gulp.task("webpack", function (callback) {
 
 gulp.task("watch", function () {
     runSequence(["default"]);
-    gulp.watch(paths.jsin + "*", ["webpack"]);
+    gulp.watch(paths.jsin + "**/*", ["webpack"]);
 });
