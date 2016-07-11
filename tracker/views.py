@@ -29,8 +29,6 @@ def track(req):
     """
     Tracks user visit
 
-    FIXME: Looks like mega trash.
-
     :param req:
     :return:
     """

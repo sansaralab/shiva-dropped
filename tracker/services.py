@@ -1,5 +1,6 @@
 import uuid
-from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData
+from .handlers import handle_frontend_event
+from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData, Trigger
 
 
 def create_new_site_visitor() -> Person:
@@ -11,7 +12,7 @@ def create_new_site_visitor() -> Person:
 def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str) -> Person:
     person_object = _get_or_create_person(person_id)
     user_agent = user_agent if user_agent is not None else ''
-    user_ip = user_ip if user_ip is not None else ''
+    user_ip = user_ip or ''
     PersonVisit.objects.create(person=person_object, page=page, user_agent=user_agent, user_ip=user_ip)
     return person_object
 
@@ -32,6 +33,7 @@ def attach_data_to_person(person_id: str, data_type: str, data_value: str) -> Pe
 
 def send_person_event(person_id: str, event_name: str, event_value: str) -> Person:
     person_object = _get_or_create_person(person_id)
+    handle_frontend_event(person_id, event_name, event_value)
     person_event = PersonEvent.objects.create(person=person_object, event_name=event_name, event_value=event_value)
     return person_event.person
 
@@ -39,9 +41,7 @@ def send_person_event(person_id: str, event_name: str, event_value: str) -> Pers
 def _get_or_create_person(uid) -> Person:
     person_id = _uid_or_none(uid)
     person_object = Person.objects.filter(uid=person_id).first()
-    if person_object is None:
-        person_object = create_new_site_visitor()
-    return person_object
+    return person_object or create_new_site_visitor()
 
 
 def _uid_or_none(uid) -> str:
