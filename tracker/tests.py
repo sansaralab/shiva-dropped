@@ -1,6 +1,6 @@
 import uuid
 from django.test import TestCase
-from .services import create_new_site_visitor
+from .services import create_new_site_visitor, _get_or_create_person
 from .models import Person, PersonVisit
 
 
@@ -86,3 +86,11 @@ class PersonManageTestCase(TestCase):
     def test_fail_send_person_event(self):
         resp = self.client.get('/tracker/event')
         self.assertEquals(resp.status_code, 403)
+
+    def test_person_creation(self):
+        first = _get_or_create_person('invalid uid')
+        second = _get_or_create_person('invalid uid')
+        self.assertFalse(str(first.uid) == str(second.uid))
+        third = _get_or_create_person('c2b5ecab-47a1-11e6-af5a-080027b379fa')
+        fourth = _get_or_create_person('c2b5ecab-47a1-11e6-af5a-080027b379fa')
+        self.assertEquals(str(third.uid), str(fourth.uid))

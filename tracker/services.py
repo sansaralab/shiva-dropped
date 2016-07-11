@@ -4,9 +4,11 @@ from .handlers import handle_frontend_event
 from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData, Trigger
 
 
-def create_new_site_visitor() -> Person:
-    person = Person()
-    person.save()
+def create_new_site_visitor(uid='') -> Person:
+    if _validate_uuid(uid):
+        person = Person.objects.create(uid=uid)
+    else:
+        person = Person.objects.create()
     return person
 
 
@@ -46,7 +48,7 @@ def send_person_event(person_id: str, event_name: str, event_value: str) -> Pers
 def _get_or_create_person(uid) -> Person:
     person_id = _uid_or_none(uid)
     person_object = Person.objects.filter(uid=person_id).first()
-    return person_object or create_new_site_visitor()
+    return person_object or create_new_site_visitor(uid)
 
 
 def _uid_or_none(uid) -> str:
