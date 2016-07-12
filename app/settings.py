@@ -1,4 +1,8 @@
 import os
+import djcelery
+
+
+djcelery.setup_loader()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
     'tracker'
 ]
 
@@ -107,3 +112,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BROKER_URL = 'amqp://shivauser:1@localhost:5672/shivahost'
+CELERY_CREATE_DIRS=1
+CELERY_CREATE_FILES=1

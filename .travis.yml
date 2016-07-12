@@ -23,6 +23,7 @@ addons:
 
 services:
   - postgresql
+  - rabbitmq
 
 install:
   - pip3 install -r ./requirements.txt
@@ -32,9 +33,16 @@ before_script:
   - sudo /etc/init.d/postgresql restart
   - psql -U postgres -c "create user shivauser with password '1';"
   - psql -U postgres -c "alter role shivauser with superuser;"
+  - sudo rabbitmqctl add_user shivauser 1
+  - sudo rabbitmqctl add_vhost shivahost
+  - sudo rabbitmqctl set_user_tags shivauser shivatag
+  - sudo rabbitmqctl set_permissions -p shivahost shivauser ".*" ".*" ".*"
+  - mkdir -p $HOME/shiva/log/celery
+  - mkdir -p $HOME/shiva/run/celery
 
 script:
   - flake8 --exit-zero --exclude=migrations .
+  - celery multi start worker --logfile="$HOME/shiva/log/celery/%N.log" --pidfile="$HOME/shiva/run/celery/%N.pid"
   - coverage run --include=./* ./manage.py test --no-input
 
 after_success:

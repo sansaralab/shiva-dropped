@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 from django.http import JsonResponse
 from django.shortcuts import render
 from .services import track_person_visit, attach_contact_to_person, send_person_event, attach_data_to_person
+from .tasks import mega_task
 
 
 def success(uid):
@@ -20,6 +21,7 @@ def error():
 
 
 def tracker_serve(req):
+    mega_task.delay()
     return render(req, 'tracker/tracker.min.js', {
         'server': req.scheme + '://' + req.get_host()
     }, content_type="application/x-javascript")
