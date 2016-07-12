@@ -114,5 +114,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 BROKER_URL = 'amqp://shivauser:1@localhost:5672/shivahost'
-CELERY_CREATE_DIRS=1
-CELERY_CREATE_FILES=1
+CELERY_IGNORE_RESULT = True
