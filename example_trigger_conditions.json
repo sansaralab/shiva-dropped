@@ -1,0 +1,58 @@
+/*
+  Structure for trigger
+
+  Frontend trigger:
+    - can have js and request type reactions
+
+  Backend trigger:
+    - can have only request type reactions
+    - TODO: conditions based on time and aggregations
+
+  // TODO: how to make complex conditions? with AND, OR, NOT...
+  // and is it necessary when regexp condition is present?
+*/
+
+{
+  "event_type": ["event", "contact", "data"],
+  "event_names": [ // filter calling events by name
+    {
+      "name": "qwe",
+      "search": ["starts", "contains", "ends", "equals", "nequals", "regexp"]
+    }
+  ],
+  "event_datas": [ // filter calling events by value
+    {
+      "value": "qwe",
+      "search": ["starts", "contains", "ends", "equals", "nequals", "regexp"]
+    }
+  ],
+  "reactions": [
+    {
+      "type": "request",
+      "method": "GET", // Or POST or anything else
+      "url": "http://example.com/send_sms_to_user",
+      "parameters": [
+        {
+          "name": "some_context_param",
+          "type": "context",
+          "value": "DATA_PHONE" // it's special context variable
+        },
+        {
+          "name": "another_static_param",
+          "type": "static",
+          "value": "12345"
+        }
+      ]
+    },
+    {
+      "type": "js",
+      "payload": "(function(first_param){alert(first_param);})(a);",
+      "parameters": [
+        {
+          "type": "static",
+          "value": "Hello World!"
+        }
+      ]
+    }
+  ]
+}
