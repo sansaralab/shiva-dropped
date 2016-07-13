@@ -45,6 +45,11 @@ def send_person_event(person_id: str, event_name: str, event_value: str) -> Pers
     return person_event.person
 
 
+def get_triggers_conditions():
+    conditions = Trigger.objects.values_list('conditions', flat=True)
+    return conditions
+
+
 def _get_or_create_person(uid) -> Person:
     person_id = _uid_or_none(uid)
     person_object = Person.objects.filter(uid=person_id).first()

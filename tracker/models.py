@@ -6,7 +6,7 @@ from .types import TRIGGER_ACTION_TYPE_CHOICES
 
 
 class Person(models.Model):
-    uid = models.UUIDField(unique=True, null=False, blank=False, default=uuid.uuid1, editable=False)
+    uid = models.UUIDField(unique=True, default=uuid.uuid1, editable=False)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField()
 
@@ -19,8 +19,8 @@ class Person(models.Model):
 
 class PersonVisit(models.Model):
     person = models.ForeignKey(Person)
-    page = models.TextField(blank=True, null=False)
-    user_agent = models.TextField(blank=True, null=False)
+    page = models.TextField(blank=True)
+    user_agent = models.TextField(blank=True)
     user_ip = models.GenericIPAddressField(blank=True, null=True)
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
@@ -30,8 +30,8 @@ class PersonContact(models.Model):
     Only for storing person's contacts
     """
     person = models.ForeignKey(Person)
-    contact_type = models.TextField(blank=False, null=False, db_index=True)
-    contact_value = models.TextField(blank=False, null=False, db_index=True)
+    contact_type = models.TextField(db_index=True)
+    contact_value = models.TextField(db_index=True)
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
     class Meta:
@@ -43,8 +43,8 @@ class PersonData(models.Model):
     For storing any additional information about person
     """
     person = models.ForeignKey(Person)
-    data_type = models.TextField(blank=False, null=False, db_index=True)
-    data_value = models.TextField(blank=False, null=False, db_index=True)
+    data_type = models.TextField(db_index=True)
+    data_value = models.TextField(db_index=True)
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
     class Meta:
@@ -54,8 +54,8 @@ class PersonData(models.Model):
 
 class PersonEvent(models.Model):
     person = models.ForeignKey(Person)
-    event_name = models.TextField(blank=False, null=False)
-    event_value = models.TextField(blank=True, null=False, default='')
+    event_name = models.TextField()
+    event_value = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(editable=False, default=timezone.now)
 
 
@@ -63,9 +63,11 @@ class Trigger(models.Model):
     """
     This is core entity of entire application
     """
-    name = models.TextField(blank=False, null=False)
-    active = models.BooleanField(blank=False, null=False, default=True)
-    action_type = models.IntegerField(null=False, choices=TRIGGER_ACTION_TYPE_CHOICES)
+    name = models.TextField()
+    active = models.BooleanField(default=False)
+    online = models.BooleanField(default=False)
+    # TODO: is here REACTION_type more better?
+    action_type = models.IntegerField(choices=TRIGGER_ACTION_TYPE_CHOICES)
     conditions = JSONField(null=True)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField()

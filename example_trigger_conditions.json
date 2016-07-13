@@ -13,14 +13,15 @@
 */
 
 {
-  "event_type": ["event", "contact", "data"],
-  "event_names": [ // filter calling events by name
+  "format": "1",
+  "caller_type": ["event", "contact", "data"],
+  "caller_names": [ // filter callers by name
     {
       "name": "qwe",
       "search": ["starts", "contains", "ends", "equals", "nequals", "regexp"]
     }
   ],
-  "event_datas": [ // filter calling events by value
+  "caller_datas": [ // filter calling callers by value
     {
       "value": "qwe",
       "search": ["starts", "contains", "ends", "equals", "nequals", "regexp"]
