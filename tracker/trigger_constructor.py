@@ -27,7 +27,7 @@ class TriggerConstructor():
         return self
 
     def add_caller_type(self, caller_type: str):
-        if caller_type not in CALLER_TYPES.keys():
+        if caller_type not in CALLER_TYPES:
             raise InvalidArgumentException('caller_type must be in CALLER_TYPES')
         if 'caller_type' not in self._trigger.conditions.keys():
             self._trigger.conditions['caller_type'] = set()
@@ -35,7 +35,7 @@ class TriggerConstructor():
         return self
 
     def filter_caller_name(self, name, search_method):
-        if search_method not in CONDITION_SEARCH_METHODS.keys():
+        if search_method not in CONDITION_SEARCH_METHODS:
             raise InvalidArgumentException('search_method must be in CONDITION_SEARCH_METHODS')
         if 'caller_names' not in self._trigger.conditions.keys():
             self._trigger.conditions['caller_names'] = list()
@@ -46,7 +46,7 @@ class TriggerConstructor():
         return self
 
     def filter_caller_value(self, name, search_method):
-        if search_method not in CONDITION_SEARCH_METHODS.keys():
+        if search_method not in CONDITION_SEARCH_METHODS:
             raise InvalidArgumentException('search_method must be in CONDITION_SEARCH_METHODS')
         if 'caller_datas' not in self._trigger.conditions.keys():
             self._trigger.conditions['caller_datas'] = list()
