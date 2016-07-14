@@ -41,9 +41,7 @@ before_script:
   - mkdir -p $HOME/shiva/run/celery
 
 script:
-  - flake8 --exit-zero --exclude=migrations .
-  - celery multi start worker --logfile="$HOME/shiva/log/celery/%N.log" --pidfile="$HOME/shiva/run/celery/%N.pid"
-  - coverage run --include=./* ./manage.py test --no-input
+  - make test
 
 after_success:
   - coverage report
