@@ -22,3 +22,13 @@ CALLER_TYPES = {
     'CONTACT': 2,
     'DATA': 3
 }
+
+REACTION_TYPES = {
+    'request': 1,
+    'js': 2
+}
+
+REQUEST_METHODS = {
+    'get',
+    'post'
+}
