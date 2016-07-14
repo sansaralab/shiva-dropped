@@ -1,5 +1,5 @@
 all:
-	@echo "Commands: test"
+	@echo "Alailable commands: test"
 
 test:
 	flake8 --exit-zero --exclude=migrations .
