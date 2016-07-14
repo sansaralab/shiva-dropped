@@ -5,7 +5,7 @@ from .models import Trigger
 class TriggerConstructor():
     def __init__(self):
         self._trigger = Trigger()
-        self._trigger.conditions = {'format': 1}
+        self._trigger.conditions['format'] = 1
 
     def set_active(self, active: bool):
         self._trigger.active = active

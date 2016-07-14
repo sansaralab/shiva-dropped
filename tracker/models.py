@@ -68,7 +68,7 @@ class Trigger(models.Model):
     online = models.BooleanField(default=False)
     # TODO: is here REACTION_type more better?
     action_type = models.IntegerField(choices=TRIGGER_ACTION_TYPE_CHOICES)
-    conditions = JSONField(null=True)
+    conditions = JSONField(null=False, default=dict)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField()
 
