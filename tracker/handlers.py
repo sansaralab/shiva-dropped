@@ -1,3 +1,4 @@
+import time
 from .models import Trigger, Person
 from .types import TRIGGER_ACTION_TYPES, HandlerResponse
 from .services import get_or_create_person
@@ -29,4 +30,7 @@ def handle_frontend_event(person: Person, event_name: str, event_value: str):
 
 def send_to_queue(caller_type, person_id, caller_name, caller_value):
     # FIXME: when .delay - celery not work
-    handle_background(caller_type=caller_type, person_id=person_id, caller_name=caller_name, caller_value=caller_value)
+    res = handle_background.delay(caller_type=caller_type, person_id=person_id, caller_name=caller_name, caller_value=caller_value)
+    time.sleep(3)
+    print('response state ')
+    print(res.state)
