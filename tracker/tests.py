@@ -1,4 +1,5 @@
 import uuid
+import time
 from django.test import TestCase
 from .services import create_new_site_visitor, get_or_create_person
 from .models import Person, PersonVisit
@@ -28,6 +29,7 @@ class PersonManageTestCase(TestCase):
         old_visits = PersonVisit.objects.count()
         succ_resp = self.client.get('/tracker/track', {'p': 'test_page'})
         self.assertEquals(succ_resp.status_code, 200)
+        time.sleep(3)
         new_total_visits = PersonVisit.objects.count()
         self.assertEquals(old_visits + 1, new_total_visits)
 
@@ -39,6 +41,7 @@ class PersonManageTestCase(TestCase):
         resp = self.client.get('/tracker/attach', {'t': 'email', 'v': 'testmail@example.com'})
         self.assertEquals(resp.status_code, 200)
         uid = self.client.cookies.get('uid').value
+        time.sleep(3)
         count = Person.objects.filter(uid=uid,
                                       personcontact__contact_type='email',
                                       personcontact__contact_value='testmail@example.com').count()
@@ -58,6 +61,7 @@ class PersonManageTestCase(TestCase):
         resp = self.client.get('/tracker/data', {'t': 'birthday', 'v': '1900-01-01'})
         self.assertEquals(resp.status_code, 200)
         uid = self.client.cookies.get('uid').value
+        time.sleep(3)
         count = Person.objects.filter(uid=uid,
                                       persondata__data_type='birthday',
                                       persondata__data_value='1900-01-01').count()
@@ -78,6 +82,7 @@ class PersonManageTestCase(TestCase):
         resp = self.client.get('/tracker/event', {'t': 'test_name', 'v': uniq_val})
         self.assertEquals(resp.status_code, 200)
         uid = self.client.cookies.get('uid').value
+        time.sleep(3)
         count = Person.objects.filter(uid=uid,
                                       personevent__event_name='test_name',
                                       personevent__event_value=uniq_val).count()
