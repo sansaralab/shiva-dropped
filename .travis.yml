@@ -42,6 +42,7 @@ before_script:
 
 script:
   - make test
+  - cat $HOME/shiva/log/celery/testworker.log
 
 after_success:
   - coverage report
