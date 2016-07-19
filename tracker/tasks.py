@@ -4,7 +4,7 @@ from .types import CALLER_TYPES
 from .models import PersonEvent, PersonData, PersonContact
 
 
-@app.task()
+@app.task(ignore_result=False)
 def handle_background(caller_type, person_id, caller_name, caller_value):
     from .services import get_or_create_person
     caller_type = int(caller_type)
