@@ -15,11 +15,12 @@ def handle_background(caller_type, person_id, caller_name, caller_value):
         try:
             PersonContact.objects.create(person=person, contact_type=caller_name, contact_value=caller_value)
         except IntegrityError:
-            pass
+            print('fail, print debug')
     elif caller_type == CALLER_TYPES['DATA']:
         try:
             PersonData.objects.create(person=person, data_type=caller_name, data_value=caller_value)
         except IntegrityError:
-            pass
+            print('fail, print debug')
     else:
         print("some error")
+    print('done background, print debug')
