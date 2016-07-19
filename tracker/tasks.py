@@ -10,6 +10,10 @@ def handle_background(caller_type, person_id, caller_name, caller_value):
     caller_type = int(caller_type)
     print("begin handle background!")
     person = get_or_create_person(person_id)
+    print(type(caller_type))
+    print([caller_type, CALLER_TYPES['EVENT']])
+    print([caller_type, CALLER_TYPES['DATA']])
+    print([caller_type, CALLER_TYPES['CONTACT']])
     if caller_type == CALLER_TYPES['EVENT']:
         PersonEvent.objects.create(person=person, event_name=caller_name, event_value=caller_value)
     elif caller_type == CALLER_TYPES['CONTACT']:
