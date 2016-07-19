@@ -10,20 +10,23 @@ def handle_background(caller_type, person_id, caller_name, caller_value):
     caller_type = int(caller_type)
     print("begin handle background!")
     person = get_or_create_person(person_id)
-    print(type(caller_type))
-    print([caller_type, CALLER_TYPES['EVENT']])
-    print([caller_type, CALLER_TYPES['DATA']])
-    print([caller_type, CALLER_TYPES['CONTACT']])
+    print([person_id, person.uid)
     if caller_type == CALLER_TYPES['EVENT']:
-        PersonEvent.objects.create(person=person, event_name=caller_name, event_value=caller_value)
+        print('starting event')
+        p = PersonEvent.objects.create(person=person, event_name=caller_name, event_value=caller_value)
+        print(p.person.uid)
     elif caller_type == CALLER_TYPES['CONTACT']:
+        print('starting contact')
         try:
-            PersonContact.objects.create(person=person, contact_type=caller_name, contact_value=caller_value)
+            p = PersonContact.objects.create(person=person, contact_type=caller_name, contact_value=caller_value)
+            print('done ' + p.person.uid)
         except IntegrityError:
             print('fail, print debug')
     elif caller_type == CALLER_TYPES['DATA']:
+        print('starting data')
         try:
-            PersonData.objects.create(person=person, data_type=caller_name, data_value=caller_value)
+            p = PersonData.objects.create(person=person, data_type=caller_name, data_value=caller_value)
+            print('done ' + p.person.uid)
         except IntegrityError:
             print('fail, print debug')
     else:
