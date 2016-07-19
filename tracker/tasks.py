@@ -23,3 +23,4 @@ def handle_background(caller_type, person_id, caller_name, caller_value):
             print('fail, print debug')
     else:
         print("some error")
+    return True
