@@ -11,7 +11,6 @@ test:
 	celery multi start testworker --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
 	coverage run --include=./* ./manage.py test --no-input
 	celery multi stop testworker --pidfile="$$HOME/shiva/run/celery/%N.pid"
-	cat $$HOME/shiva/log/celery/testworker.log
 
 front:
 	gulp webpack
