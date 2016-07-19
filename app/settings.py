@@ -2,8 +2,6 @@ import os
 import djcelery
 
 
-djcelery.setup_loader()
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,6 +13,8 @@ SECRET_KEY = 'ng)je^qobr%4+owyovesgi+-1o66id95x19+nvg9d*490a85(r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+djcelery.setup_loader()
 
 ALLOWED_HOSTS = []
 
@@ -113,5 +113,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+## CELERY 
+
+CELERY_RESULT_BACKEND = "amqp"
 BROKER_URL = 'amqp://shivauser:1@localhost:5672/shivahost'
-CELERY_IGNORE_RESULT = True
+CELERY_IGNORE_RESULT = False
+CELERY_TASK_RESULT_EXPIRES = 18000
