@@ -9,3 +9,12 @@ test:
 
 front:
 	gulp webpack
+
+celeryup:
+	celery multi start devworker --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
+
+celerydown:
+	celery multi stop devworker --pidfile="$$HOME/shiva/run/celery/%N.pid"
+
+flower:
+	flower

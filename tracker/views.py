@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 from django.http import JsonResponse
 from django.shortcuts import render
 from .services import track_person_visit, attach_contact_to_person, send_person_event, attach_data_to_person
-from .tasks import mega_task
 
 
 def success(uid):
@@ -21,7 +20,6 @@ def error():
 
 
 def tracker_serve(req):
-    mega_task.delay()
     return render(req, 'tracker/tracker.min.js', {
         'server': req.scheme + '://' + req.get_host()
     }, content_type="application/x-javascript")
@@ -63,8 +61,8 @@ def attach_contact(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        person = attach_contact_to_person(uid, info_type, info_value)
-        return success(person.uid)
+        response = attach_contact_to_person(uid, info_type, info_value)
+        return success(response.person.uid)
     else:
         return error()
 
@@ -81,8 +79,8 @@ def attach_data(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        person = attach_data_to_person(uid, data_type, data_value)
-        return success(person.uid)
+        response = attach_data_to_person(uid, data_type, data_value)
+        return success(response.person.uid)
     else:
         return error()
 
@@ -99,7 +97,7 @@ def send_event(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        person = send_person_event(uid, event_type, event_value)
-        return success(person.uid)
+        response = send_person_event(uid, event_type, event_value)
+        return success(response.person.uid)
     else:
         return error()

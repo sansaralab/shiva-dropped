@@ -93,12 +93,16 @@ class TriggerConstructor():
                         })
         if 'reactions' not in self._trigger.conditions.keys():
             self._trigger.conditions['reactions'] = list()
+
         self._trigger.conditions['reactions'].append(reaction)
         return self
 
     def save(self):
         self._trigger.save()
         return self._trigger
+
+    def _validate_trigger(self):
+        return True
 
 
 class InvalidArgumentException(Exception):
