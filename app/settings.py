@@ -74,6 +74,9 @@ DATABASES = {
         'PASSWORD': os.environ.get('SHIVA_DB_PASSWORD', '1'),
         'HOST': os.environ.get('SHIVA_DB_HOST', 'localhost'),
         'PORT': os.environ.get('SHIVA_DB_PORT', '5432'),
+        'TEST': {
+            'NAME': os.environ.get('TEST_SHIVA_DB_NAME', 'test_shivadb'),
+        }
     }
 }
 
