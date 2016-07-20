@@ -119,11 +119,11 @@ STATIC_URL = '/static/'
 
 ## CELERY 
 
-CELERY_RESULT_BACKEND = "amqp"
+CELERY_RESULT_BACKEND = "djcelery.backends.database.DatabaseBackend"
 BROKER_URL = 'amqp://shivauser:1@localhost:5672/shivahost'
 CELERY_IGNORE_RESULT = False
 CELERY_TASK_RESULT_EXPIRES = 18000
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
-TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
