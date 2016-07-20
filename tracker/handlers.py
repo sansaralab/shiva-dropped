@@ -30,4 +30,4 @@ def handle_frontend_event(person: Person, event_name: str, event_value: str):
 
 def send_to_queue(caller_type, person_id, caller_name, caller_value):
     # FIXME: when .delay - celery not work
-    handle_background(caller_type=caller_type, person_id=person_id, caller_name=caller_name, caller_value=caller_value)
+    handle_background.delay(caller_type=caller_type, person_id=person_id, caller_name=caller_name, caller_value=caller_value)
