@@ -8,9 +8,9 @@ all:
 
 test:
 	flake8 --exit-zero --exclude=migrations .
-	celery multi start testworker -A app --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
+	python3 ./manage.py celery multi start testworker --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
 	coverage run --include=./* ./manage.py test --no-input
-	celery multi stop testworker -A app --pidfile="$$HOME/shiva/run/celery/%N.pid"
+	python3 ./manage.py celery multi stop testworker --pidfile="$$HOME/shiva/run/celery/%N.pid"
 
 front:
 	gulp webpack
