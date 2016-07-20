@@ -126,3 +126,4 @@ CELERY_TASK_RESULT_EXPIRES = 18000
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
