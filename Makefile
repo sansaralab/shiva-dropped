@@ -16,10 +16,10 @@ front:
 	gulp webpack
 
 celeryup:
-	celery multi start devworker -A app --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
+	python3 ./manage.py celery multi start devworker --logfile="$$HOME/shiva/log/celery/%N.log" --pidfile="$$HOME/shiva/run/celery/%N.pid" --loglevel=DEBUG
 
 celerydown:
-	celery multi stop devworker -A app --pidfile="$$HOME/shiva/run/celery/%N.pid"
+	python3 ./manage.py celery multi stop devworker --pidfile="$$HOME/shiva/run/celery/%N.pid"
 
 flower:
 	flower
