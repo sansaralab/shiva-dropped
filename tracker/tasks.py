@@ -2,6 +2,7 @@ from django.db import IntegrityError
 from app import app
 from .types import CALLER_TYPES
 from .models import PersonEvent, PersonData, PersonContact
+from .handlers import handle_backend_event
 
 
 @app.task()
@@ -23,4 +24,5 @@ def handle_background(caller_type, person_id, caller_name, caller_value):
             pass
     else:
         print("some error")
-    return True
+
+    return handle_backend_event(caller_type, person_id, caller_name, caller_value)

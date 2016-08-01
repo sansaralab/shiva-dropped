@@ -8,14 +8,14 @@ from .tasks import handle_background
 def handle(caller_type, person_id, caller_name, caller_value):
     person_object = get_or_create_person(person_id)
 
-    javascripts = handle_frontend_event(person_object, caller_name, caller_value)
+    javascripts = handle_frontend_event(caller_type, person_object, caller_name, caller_value)
     send_to_queue(caller_type, str(person_object.uid), caller_name, caller_value)
     response = HandlerResponse(person=person_object, javascript=javascripts)
 
     return response
 
 
-def handle_frontend_event(person: Person, event_name: str, event_value: str):
+def handle_frontend_event(action_type, person: Person, event_name: str, event_value: str):
     javascripts = list()
     triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['FRONTEND']).all()
 
@@ -24,6 +24,16 @@ def handle_frontend_event(person: Person, event_name: str, event_value: str):
             pass
 
     return javascripts
+
+
+def handle_backend_event(action_type, person_id, action_name, action_value):
+    triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['BACKEND']).all()
+
+    if len(triggers):
+        for trigger in triggers:
+            pass
+
+    return True
 
 
 def send_to_queue(caller_type, person_id, caller_name, caller_value):
