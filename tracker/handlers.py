@@ -12,8 +12,6 @@ def handle(caller_type, person_id, caller_name, caller_value):
     send_to_queue(caller_type, str(person_object.uid), caller_name, caller_value)
     response = HandlerResponse(person=person_object, javascript=javascripts)
 
-    print(response.person.uid)
-
     return response
 
 
