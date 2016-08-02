@@ -1,4 +1,4 @@
-import time
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Trigger, Person
 from .types import TRIGGER_ACTION_TYPES, HandlerResponse
 from .services import get_or_create_person
@@ -17,7 +17,11 @@ def handle(caller_type, person_id, caller_name, caller_value):
 
 def handle_frontend_event(action_type, person: Person, event_name: str, event_value: str):
     javascripts = list()
-    triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['FRONTEND']).all()
+
+    try:
+        triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['FRONTEND']).get()
+    except ObjectDoesNotExist:
+        triggers = list()
 
     if len(triggers):
         for trigger in triggers:
@@ -27,7 +31,10 @@ def handle_frontend_event(action_type, person: Person, event_name: str, event_va
 
 
 def handle_backend_event(action_type, person_id, action_name, action_value):
-    triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['BACKEND']).all()
+    try:
+        triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['BACKEND']).get()
+    except ObjectDoesNotExist:
+        triggers = list()
 
     if len(triggers):
         for trigger in triggers:
