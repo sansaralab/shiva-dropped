@@ -2,14 +2,16 @@ from django.db import IntegrityError
 from app import app
 from .types import CALLER_TYPES
 from .models import PersonEvent, PersonData, PersonContact
-from .handlers import handle_backend_event
 
 
 @app.task()
 def handle_background(caller_type, person_id, caller_name, caller_value):
     from .services import get_or_create_person
+    from .handlers import handle_backend_event
+    
     caller_type = int(caller_type)
     person = get_or_create_person(person_id)
+    
     if caller_type == CALLER_TYPES['EVENT']:
         PersonEvent.objects.create(person=person, event_name=caller_name, event_value=caller_value)
     elif caller_type == CALLER_TYPES['CONTACT']:
