@@ -5,6 +5,9 @@ all:
 	@echo " - celeryup"
 	@echo " - celerydown"
 	@echo " - flower"
+	@echo " - docker-up"
+	@echo " - docker-db"
+	@echo " - docker-down"
 
 test:
 	flake8 --exit-zero --exclude=migrations .
@@ -23,3 +26,14 @@ celerydown:
 
 flower:
 	flower
+
+docker-up:
+	docker run --name=shiva-postgres -p 5432:5432 -v /var/lib/postgresql/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=1 -d postgres
+
+docker-db:
+	docker exec shiva-postgres /bin/su - postgres -c "createdb shivadb"
+	docker exec shiva-postgres /bin/su - postgres -c "psql -c \"CREATE USER shivauser WITH LOGIN CREATEDB PASSWORD '1';\""
+
+docker-down:
+	docker stop shiva-postgres
+	docker rm shiva-postgres
