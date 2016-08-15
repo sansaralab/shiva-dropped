@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Trigger, Person
 from .types import TRIGGER_REACTION_SIDES, HandlerResponse
-from .services import get_or_create_person
+from .services import get_or_create_person, compare_condition
 from .tasks import handle_background
 
 
@@ -25,7 +25,11 @@ def handle_frontend_event(action_type, person: Person, event_name: str, event_va
 
     if len(triggers):
         for trigger in triggers:
-            pass
+            conditions = trigger.conditions
+            if len(conditions['caller_names']):
+                for caller_name in conditions['caller_names']:
+                    if not compare_condition(event_name, caller_name['name'], caller_name['search']):
+                        continue
 
     return javascripts
 

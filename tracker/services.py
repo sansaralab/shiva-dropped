@@ -1,4 +1,5 @@
 import uuid
+import re
 from .types import ACTION_TYPES
 from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData, Trigger
 
@@ -46,6 +47,25 @@ def get_or_create_person(uid) -> Person:
     person_id = _uid_or_none(uid)
     person_object = Person.objects.filter(uid=person_id).first()
     return person_object or create_new_site_visitor(uid)
+
+
+def compare_condition(source: str, searching: str, search_method: str):
+    if search_method == 'starts':
+        return source.startswith(searching)
+    elif search_method == 'contains':
+        return searching in source
+    elif search_method == 'ends':
+        return source.endswith(searching)
+    elif search_method == 'equals':
+        return source == searching
+    elif search_method == 'nequals':
+        return source != searching
+    elif search_method == 'regexp':
+        res_re = re.compile(searching)
+        res = res_re.findall(source)
+        return len(res) > 0
+    else:
+        return False
 
 
 def _uid_or_none(uid) -> str:
