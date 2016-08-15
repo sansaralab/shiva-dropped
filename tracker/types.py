@@ -1,12 +1,12 @@
-TRIGGER_ACTION_TYPES = {
+TRIGGER_REACTION_SIDES = {
     'BACKEND': 0,
     'FRONTEND': 1
 }
 
 
-TRIGGER_ACTION_TYPE_CHOICES = (
-    (TRIGGER_ACTION_TYPES['BACKEND'], 'Backend trigger'),
-    (TRIGGER_ACTION_TYPES['FRONTEND'], 'Frontend trigger'),
+TRIGGER_REACTION_SIDE_CHOICES = (
+    (TRIGGER_REACTION_SIDES['BACKEND'], 'Backend trigger'),
+    (TRIGGER_REACTION_SIDES['FRONTEND'], 'Frontend trigger'),
 )
 
 
@@ -20,7 +20,7 @@ CONDITION_SEARCH_METHODS = {
 }
 
 
-CALLER_TYPES = {
+ACTION_TYPES = {
     'EVENT': 1,
     'CONTACT': 2,
     'DATA': 3
@@ -39,7 +39,7 @@ REQUEST_METHODS = {
 }
 
 
-class HandlerResponse():
+class HandlerResponse:
     person = None
     javascript = None
 

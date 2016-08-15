@@ -1,15 +1,15 @@
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Trigger, Person
-from .types import TRIGGER_ACTION_TYPES, HandlerResponse
+from .types import TRIGGER_REACTION_SIDES, HandlerResponse
 from .services import get_or_create_person
 from .tasks import handle_background
 
 
-def handle(caller_type, person_id, caller_name, caller_value):
+def handle(action_type, person_id, param_name, param_value):
     person_object = get_or_create_person(person_id)
 
-    javascripts = handle_frontend_event(caller_type, person_object, caller_name, caller_value)
-    send_to_queue(caller_type, str(person_object.uid), caller_name, caller_value)
+    javascripts = handle_frontend_event(action_type, person_object, param_name, param_value)
+    send_to_queue(action_type, str(person_object.uid), param_name, param_value)
     response = HandlerResponse(person=person_object, javascript=javascripts)
 
     return response
@@ -19,7 +19,7 @@ def handle_frontend_event(action_type, person: Person, event_name: str, event_va
     javascripts = list()
 
     try:
-        triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['FRONTEND']).get()
+        triggers = Trigger.objects.filter(reaction_side=TRIGGER_REACTION_SIDES['FRONTEND']).get()
     except ObjectDoesNotExist:
         triggers = list()
 
@@ -32,7 +32,7 @@ def handle_frontend_event(action_type, person: Person, event_name: str, event_va
 
 def handle_backend_event(action_type, person_id, action_name, action_value):
     try:
-        triggers = Trigger.objects.filter(action_type=TRIGGER_ACTION_TYPES['BACKEND']).get()
+        triggers = Trigger.objects.filter(reaction_side=TRIGGER_REACTION_SIDES['BACKEND']).get()
     except ObjectDoesNotExist:
         triggers = list()
 
@@ -43,6 +43,6 @@ def handle_backend_event(action_type, person_id, action_name, action_value):
     return True
 
 
-def send_to_queue(caller_type, person_id, caller_name, caller_value):
+def send_to_queue(action_type, person_id, action_name, action_value):
     # FIXME: when .delay - celery not work
-    handle_background.delay(caller_type=caller_type, person_id=person_id, caller_name=caller_name, caller_value=caller_value)
+    handle_background(caller_type=action_type, person_id=person_id, caller_name=action_name, caller_value=action_value)

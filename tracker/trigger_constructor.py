@@ -1,4 +1,4 @@
-from .types import TRIGGER_ACTION_TYPES, CONDITION_SEARCH_METHODS, CALLER_TYPES, REACTION_TYPES
+from .types import TRIGGER_REACTION_SIDES, CONDITION_SEARCH_METHODS, ACTION_TYPES, REACTION_TYPES
 from .models import Trigger
 
 
@@ -20,15 +20,15 @@ class TriggerConstructor():
         return self
 
     def set_action_type(self, action_type: int):
-        if action_type not in TRIGGER_ACTION_TYPES.values():
+        if action_type not in TRIGGER_REACTION_SIDES.values():
             raise InvalidArgumentException('Action type must be in TRIGGER_ACTION_TYPES')
 
         self._trigger.action_type = action_type
         return self
 
     def add_caller_type(self, caller_type: str):
-        if caller_type not in CALLER_TYPES.values():
-            raise InvalidArgumentException('caller_type must be in CALLER_TYPES')
+        if caller_type not in ACTION_TYPES.values():
+            raise InvalidArgumentException('caller_type must be in ACTION_TYPES')
         if 'caller_type' not in self._trigger.conditions.keys():
             self._trigger.conditions['caller_type'] = set()
         self._trigger.conditions['caller_type'].add(caller_type)

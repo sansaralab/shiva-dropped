@@ -50,10 +50,10 @@ def track(req):
 
 
 def attach_contact(req):
-    info_type = req.GET.get('t', None)
-    info_value = req.GET.get('v', None)
+    contact_type = req.GET.get('t', None)
+    contact_value = req.GET.get('v', None)
 
-    if info_type is None or info_value is None:
+    if contact_type is None or contact_value is None:
         return error()
 
     referer = req.META.get("HTTP_REFERER", None)
@@ -61,7 +61,7 @@ def attach_contact(req):
     domain = '{uri.netloc}'.format(uri=parsed_uri)
     if domain:
         uid = req.COOKIES.get('uid', None)
-        response = attach_contact_to_person(uid, info_type, info_value)
+        response = attach_contact_to_person(uid, contact_type, contact_value)
         return success(response.person.uid)
     else:
         return error()

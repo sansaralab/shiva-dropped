@@ -1,5 +1,5 @@
 import uuid
-from .types import CALLER_TYPES
+from .types import ACTION_TYPES
 from .models import Person, PersonVisit, PersonContact, PersonEvent, PersonData, Trigger
 
 
@@ -21,19 +21,19 @@ def track_person_visit(person_id: str, page: str, user_agent: str, user_ip: str)
 
 def attach_contact_to_person(person_id: str, contact_type: str, contact_value: str) -> Person:
     from .handlers import handle
-    response = handle(CALLER_TYPES['CONTACT'], person_id, contact_type, contact_value)
+    response = handle(ACTION_TYPES['CONTACT'], person_id, contact_type, contact_value)
     return response
 
 
 def attach_data_to_person(person_id: str, data_type: str, data_value: str) -> Person:
     from .handlers import handle
-    response = handle(CALLER_TYPES['DATA'], person_id, data_type, data_value)
+    response = handle(ACTION_TYPES['DATA'], person_id, data_type, data_value)
     return response
 
 
 def send_person_event(person_id: str, event_name: str, event_value: str) -> Person:
     from .handlers import handle
-    response = handle(CALLER_TYPES['EVENT'], person_id, event_name, event_value)
+    response = handle(ACTION_TYPES['EVENT'], person_id, event_name, event_value)
     return response
 
 

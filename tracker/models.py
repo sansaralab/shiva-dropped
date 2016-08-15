@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField
-from .types import TRIGGER_ACTION_TYPE_CHOICES
+from .types import TRIGGER_REACTION_SIDE_CHOICES
 
 
 class Person(models.Model):
@@ -67,7 +67,7 @@ class Trigger(models.Model):
     active = models.BooleanField(default=False)
     online = models.BooleanField(default=False)
     # TODO: is here REACTION_type more better?
-    action_type = models.IntegerField(choices=TRIGGER_ACTION_TYPE_CHOICES)
+    reaction_side = models.IntegerField(choices=TRIGGER_REACTION_SIDE_CHOICES)
     conditions = JSONField(null=False, default=dict)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField()
